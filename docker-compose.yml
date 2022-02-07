@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  opencart:
+    container_name: opencart
+    # build:
+      # context: .
+    image: als698/opencart:latest
+    volumes:
+      - ./web/oc:/var/www/html
+      - ./web/storage:/var/www/storage
+      - ./db/data:/db/data
+      - ./db/bin:/db/bin
+      - ./db/opencart.sql:/db/opencart.sql
+    ports:
+      - "80:8080"
