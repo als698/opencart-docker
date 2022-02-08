@@ -67,6 +67,7 @@ COPY --chown=nobody web/oc/ /var/www/html/
 COPY --chown=nobody web/storage/ /var/www/storage/
 
 EXPOSE 8080
+EXPOSE 3306
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
 HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:8080/fpm-ping
