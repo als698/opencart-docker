@@ -51,7 +51,7 @@ else
   mysql_install_db --user=nobody > /dev/null
   echo "USE mysql;" >> $tfile
   echo "FLUSH PRIVILEGES;" >> $tfile
-  echo "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_USER' WITH GRANT OPTION;" >> $tfile
+  echo "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD' WITH GRANT OPTION;" >> $tfile
   echo "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD' WITH GRANT OPTION;" >> $tfile
 fi
 
@@ -71,9 +71,9 @@ if [ "$IMPORT_DB" = "1" ]; then
 fi
 
 echo $(date '+%Y-%m-%d %H:%M:%S') "mysql [info]: creating $MYSQL_USER"
-echo "CREATE USER \`$MYSQL_USER\`@'localhost' IDENTIFIED BY '$MYSQL_PASSWORD';" >> $tfile
+# echo "CREATE USER \`$MYSQL_USER\`@'localhost' IDENTIFIED BY '$MYSQL_PASSWORD';" >> $tfile
 echo $(date '+%Y-%m-%d %H:%M:%S') "mysql [info]: grant privileges $MYSQL_USER to $MYSQL_DATABASE"
-echo "GRANT ALL PRIVILEGES ON \`$MYSQL_DATABASE\`.* TO \`$MYSQL_USER\`@'%' IDENTIFIED BY '$MYSQL_PASSWORD';" >> $tfile
+echo "GRANT ALL ON \`$MYSQL_DATABASE\`.* TO \`$MYSQL_USER\`@'%' IDENTIFIED BY '$MYSQL_PASSWORD';" >> $tfile
 
 /usr/bin/mysqld --user=nobody --bootstrap --verbose=0 < $tfile
 rm -f $tfile
