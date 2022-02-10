@@ -5,6 +5,9 @@ if [ ! -d "/run/mysqld" ]; then
   mkdir -p /run/mysqld
 fi
 
+cp /config.php /var/www/html/config.php
+cp /admin-config.php /var/www/html/admin/config.php
+
 if [ "$HTTP_SERVER" != "" ]; then
   sed -i -e "s/\/localhost/\/$HTTP_SERVER/g" /var/www/html/config.php
   sed -i -e "s/\/localhost/\/$HTTP_SERVER/g" /var/www/html/admin/config.php

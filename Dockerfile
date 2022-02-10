@@ -50,6 +50,8 @@ COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY config/mysql.sh /mysql.sh
 COPY config/my.cnf /etc/mysql/my.cnf
 COPY db/opencart.sql /opencart.sql
+COPY web/oc/config.php /config.php
+COPY web/oc/admin/config.php /admin-config.php
 
 RUN mkdir -p /var/www/html && \
     mkdir -p /db/data && \
