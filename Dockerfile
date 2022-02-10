@@ -33,12 +33,12 @@ RUN apk --no-cache add php8=${PHP_VERSION} \
     php8-tokenizer \
     php8-pdo_mysql \
     mysql mysql-client \
-    nginx supervisor curl tzdata htop mysql-client dcron nano
+    nginx supervisor curl tzdata htop dcron nano bash
 
 RUN ln -s /usr/bin/php8 /usr/bin/php
 
-RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp && \
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 
 COPY config/nginx.conf /etc/nginx/nginx.conf
 
@@ -47,24 +47,33 @@ COPY config/php.ini /etc/php8/conf.d/custom.ini
 
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-COPY --chown=nobody --chmod=755 db/data /db/data
-COPY --chown=nobody --chmod=755 db/bin /db/bin
-COPY --chown=nobody db/opencart.sql /db/opencart.sql
-COPY --chown=nobody --chmod=755 config/mysql.sh /bin/mysql.sh
+COPY config/mysql.sh /mysql.sh
 COPY config/my.cnf /etc/mysql/my.cnf
+COPY db/opencart.sql /opencart.sql
 
-RUN mkdir -p /var/www/html
+RUN mkdir -p /var/www/html && \
+    mkdir -p /db/data && \
+    chown -R nobody.nobody /db && \
+    mkdir -p /run/mysqld && \
+    chown -R nobody.nobody /run/mysqld && \
+    chmod 777 /run/mysqld && \
+    chown nobody.nobody /mysql.sh && \
+    chmod 755 /mysql.sh && \
+    chown nobody.nobody /opencart.sql && \
+    chmod 755 /opencart.sql && \
+    chown -R nobody.nobody /run && \
+    chown -R nobody.nobody /var/lib/nginx && \
+    chown -R nobody.nobody /var/log/nginx
 
-RUN chown -R nobody.nobody /var/www/html && \
-  chown -R nobody.nobody /run && \
-  chown -R nobody.nobody /var/lib/nginx && \
-  chown -R nobody.nobody /var/log/nginx
+COPY web/pma/ /var/www/pma/
+COPY web/oc/ /var/www/html/
+COPY web/storage/ /var/www/storage/
+
+RUN chown -R nobody.nobody /var/www
 
 USER nobody
 
 WORKDIR /var/www/html
-COPY --chown=nobody web/oc/ /var/www/html/
-COPY --chown=nobody web/storage/ /var/www/storage/
 
 EXPOSE 8080
 EXPOSE 3306
