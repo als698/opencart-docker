@@ -9,8 +9,8 @@ services:
     volumes:
       - ./web/oc:/var/www/html
       - ./web/storage:/var/www/storage
-      - ./db/data:/db/data
-      - ./db/bin:/db/bin
-      # - ./db/opencart.sql:/db/opencart.sql
+      - ./db:/db
     ports:
       - "80:8080"
+    # environment:
+      # IMPORT_DB: 1
