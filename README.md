@@ -27,6 +27,8 @@ Admin OC
   * Password: pasmin  
   * Opencart: localhost
 
+phpMyAdmin - http://localhost/pma/
+
 Default Env
   * Database: opencart
   * User DB: dbus3r
@@ -56,7 +58,8 @@ db/opencart.sql - Import database - /db/opencart.sql
 
 web/ - Web files
 web/oc/ - Opencart files - /var/www/html/
-web/storage/ - Opencart storage - /var/www/storage
+web/storage/ - Opencart storage - /var/www/storage/
+web/pma/ - phpMyAdmin - /var/www/pma/
 ```
 
 If you want to use your opencart files, don't forget to remove your config files before you run it (config.php and admin/config.php)
