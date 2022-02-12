@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   web:
@@ -7,28 +7,36 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./web/oc:/var/www/html
-      - ./web/storage:/var/www/storage
-      - ./db:/db
+      - web_data:/var/www/html
+      - storage:/var/www/storage
+      - pma:/var/www/pma
+      - db:/db
     links:
       - php
     networks:
       - web_network
-    environment:
-      MYSQL_DATABASE: dbName
-      MYSQL_USER: uName
-      MYSQL_PASSWORD: pAss
-      MYSQL_ROOT_PASSWORD: rPass
-      # HTTP_SERVER: localhost # Change it when you run it on different host
+    # environment:
+    #   MYSQL_DATABASE: dbName
+    #   MYSQL_USER: uName
+    #   MYSQL_PASSWORD: pAss
+    #   MYSQL_ROOT_PASSWORD: rPass
+    #   HTTP_SERVER: localhost # Change it when you run it on different host
 
   php:
-    image: als698/opencart:php
+    image: als698/php:7.4
     container_name: php
     volumes:
-      - ./web/oc:/var/www/html
-      - ./web/storage:/var/www/storage
+      - web_data:/var/www/html
+      - storage:/var/www/storage
+      - pma:/var/www/pma
     networks:
       - web_network
+
+volumes:
+  web_data:
+  storage:
+  pma:
+  db:
 
 networks:
   web_network:

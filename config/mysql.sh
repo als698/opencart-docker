@@ -9,8 +9,10 @@ if [ ! -d "/run/mysqld" ]; then
     mkdir -p /run/mysqld
     chown -R mysql:mysql /run/mysqld
     chmod 777 /run/mysqld
+    mysql_installed=0
 else
     rm -f /run/mysqld/msqld.sock
+    mysql_installed=1
 fi
 
 if [ ! -d "/var/www/html/admin" ]; then
@@ -82,6 +84,8 @@ else
 fi
 
 echo $(date '+%Y-%m-%d %H:%M:%S') "mysql [info]: creating $MYSQL_USER"
+echo "USE mysql;" >> $tfile
+echo "DROP USER IF EXISTS $MYSQL_USER;" >> $tfile
 echo "CREATE USER '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';" >> $tfile
 echo $(date '+%Y-%m-%d %H:%M:%S') "mysql [info]: grant privileges $MYSQL_USER to $MYSQL_DATABASE"
 echo "GRANT ALL ON \`$MYSQL_DATABASE\`.* to '$MYSQL_USER'@'%';" >> $tfile
@@ -89,7 +93,11 @@ echo "GRANT ALL ON \`$MYSQL_DATABASE\`.* to '$MYSQL_USER'@'%';" >> $tfile
 /usr/bin/mysqld --skip-networking &
 pid="$!"
 
-mysql=( mysql --protocol=socket -uroot -hlocalhost --socket=/run/mysqld/mysqld.sock )
+if [ "$mysql_installed" = "0" ]; then
+  mysql=( mysql --protocol=socket -uroot -hlocalhost --socket=/run/mysqld/mysqld.sock )
+else
+  mysql=( mysql )
+fi
 
 for i in {30..0}; do
     echo $(date '+%Y-%m-%d %H:%M:%S') "mysql [info]: MySQL init process in progress..."
@@ -127,9 +135,26 @@ fi
 if [ ! -f "/var/www/html/index.php" ]; then
   echo $(date '+%Y-%m-%d %H:%M:%S') "web [info]: Opencart not present in docker-compose"
   echo $(date '+%Y-%m-%d %H:%M:%S') "web [info]: Installing Opencart"
-  unzip /opencart.zip -d /var/www/
+  unzip /oc.zip -d /var/www/html/
+fi
+
+if [ ! -f "/var/www/storage/vendor/autoload.php" ]; then
+  echo $(date '+%Y-%m-%d %H:%M:%S') "web [info]: Opencart Storage not present in docker-compose"
+  echo $(date '+%Y-%m-%d %H:%M:%S') "web [info]: Installing Opencart Storage"
+  unzip /storage.zip -d /var/www/storage/
 fi
 echo $(date '+%Y-%m-%d %H:%M:%S') "web [info]: Opencart installed [OK]"
+
+
+if [ ! -f "/var/www/pma/index.php" ]; then
+  echo $(date '+%Y-%m-%d %H:%M:%S') "web [info]: Installing phpMyAdmin"
+  unzip /pma.zip -d /var/www/
+  echo $(date '+%Y-%m-%d %H:%M:%S') "web [info]: phpMyAdmin installed [OK]"
+fi
+
+chmod -R 777 /var/www/
+chmod -R 644 /var/www/*/config*.php
+chown -R nginx.nginx /var/www
 
 echo $(date '+%Y-%m-%d %H:%M:%S') "STARTING DATABASE"
 

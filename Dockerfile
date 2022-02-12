@@ -14,12 +14,12 @@ COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY config/mysql.sh /mysql.sh
 COPY config/my.cnf /etc/mysql/my.cnf
 
-COPY config/opencart.zip /opencart.zip
+COPY web/pma.zip /pma.zip
+COPY web/oc.zip /oc.zip
+COPY web/storage.zip /storage.zip
 COPY db/opencart.sql /opencart.sql
 COPY config/catalog-config.php /catalog-config.php
 COPY config/admin-config.php /admin-config.php
-
-COPY php/web/pma/ /var/www/pma/
 
 RUN chmod 755 /mysql.sh
 
