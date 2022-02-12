@@ -1,7 +1,7 @@
 # Opencart Docker
 
 Configuration:
-* Alpine
+* Alpine 3.5
 * Nginx
 * MySQL 8
 * PHP 7.4
