@@ -14,7 +14,7 @@ curl -O https://raw.githubusercontent.com/als698/opencart-docker/master/docker-c
 ## Pull
 ```
 docker pull als698/opencart
-docker pull als698/opencart_php
+docker pull als698/php:7.4
 ```
 
 ## Config
@@ -40,10 +40,10 @@ db/ - Database
 db/data/ - Database data - /db/data/
 db/opencart.sql - Import database - /db/opencart.sql
 
-php/web/ - Web files
-php/web/oc/ - Opencart files - /var/www/html/
-php/web/storage/ - Opencart storage - /var/www/storage/
-php/web/pma/ - phpMyAdmin - /var/www/pma/
+web/ - Web files
+web/oc.zip/ - Opencart files - /var/www/html/
+web/storage.zip/ - Opencart storage - /var/www/storage/
+web/pma.zip/ - phpMyAdmin - /var/www/pma/
 ```
 
 If you want to use your opencart files, don't forget to remove your config files before you run it (config.php and admin/config.php)
