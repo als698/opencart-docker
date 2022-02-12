@@ -14,17 +14,14 @@ COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY config/mysql.sh /mysql.sh
 COPY config/my.cnf /etc/mysql/my.cnf
 
-COPY php/web/opencart.zip /opencart.zip
+COPY config/opencart.zip /opencart.zip
 COPY db/opencart.sql /opencart.sql
-COPY php/web/oc/config.php /config.php
-COPY php/web/oc/admin/config.php /admin-config.php
+COPY config/catalog-config.php /catalog-config.php
+COPY config/admin-config.php /admin-config.php
 
-COPY php/web/oc/ /var/www/html/
-COPY php/web/storage/ /var/www/storage/
 COPY php/web/pma/ /var/www/pma/
 
-RUN chmod 755 /mysql.sh && \
-    chown -R nginx.nginx /var/www/
+RUN chmod 755 /mysql.sh
 
 WORKDIR /var/www/html
 

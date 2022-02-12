@@ -13,11 +13,4 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql pdo_pgsql
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp && \
     php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 
-COPY web/oc/config.php /config.php
-COPY web/oc/admin/config.php /admin-config.php
-
 COPY web/pma/ /var/www/pma/
-COPY web/oc/ /var/www/html/
-COPY web/storage/ /var/www/storage/
-
-RUN chown -R www-data:www-data /var/www/

@@ -16,7 +16,7 @@ fi
 if [ ! -d "/var/www/html/admin" ]; then
   mkdir -p /var/www/html/admin
 fi
-cp /config.php /var/www/html/config.php
+cp /catalog-config.php /var/www/html/config.php
 cp /admin-config.php /var/www/html/admin/config.php
 
 if [ "$HTTP_SERVER" != "" ]; then
@@ -125,9 +125,9 @@ else
 fi
 
 if [ ! -f "/var/www/html/index.php" ]; then
-  echo $(date '+%Y-%m-%d %H:%M:%S') "web [info]: Opencart not added in docker-compose"
+  echo $(date '+%Y-%m-%d %H:%M:%S') "web [info]: Opencart not present in docker-compose"
   echo $(date '+%Y-%m-%d %H:%M:%S') "web [info]: Installing Opencart"
-  unzip /opencart.zip -d /var/www/html/
+  unzip /opencart.zip -d /var/www/
 fi
 echo $(date '+%Y-%m-%d %H:%M:%S') "web [info]: Opencart installed [OK]"
 
