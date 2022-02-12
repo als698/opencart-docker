@@ -96,7 +96,7 @@ pid="$!"
 if [ "$mysql_installed" = "0" ]; then
   mysql=( mysql --protocol=socket -uroot -hlocalhost --socket=/run/mysqld/mysqld.sock )
 else
-  mysql=( mysql )
+  mysql=( mysql --protocol=socket -uroot -p$MYSQL_ROOT_PASSWORD -hlocalhost --socket=/run/mysqld/mysqld.sock )
 fi
 
 for i in {30..0}; do
