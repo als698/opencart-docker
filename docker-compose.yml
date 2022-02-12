@@ -1,16 +1,35 @@
-version: "3.8"
+version: '3.8'
 
 services:
-  opencart:
-    container_name: opencart
-    # build:
-      # context: .
+  web:
     image: als698/opencart:latest
+    container_name: web
+    ports:
+      - "80:80"
     volumes:
       - ./web/oc:/var/www/html
       - ./web/storage:/var/www/storage
       - ./db:/db
-    ports:
-      - "80:8080"
-    # environment:
-      # IMPORT_DB: 1
+    links:
+      - php
+    networks:
+      - web_network
+    environment:
+      MYSQL_DATABASE: dbName
+      MYSQL_USER: uName
+      MYSQL_PASSWORD: pAss
+      MYSQL_ROOT_PASSWORD: rPass
+      # HTTP_SERVER: localhost # Change it when you run it on different host
+
+  php:
+    image: als698/opencart_php:latest
+    container_name: php
+    volumes:
+      - ./web/oc:/var/www/html
+      - ./web/storage:/var/www/storage
+    networks:
+      - web_network
+
+networks:
+  web_network:
+    driver: bridge

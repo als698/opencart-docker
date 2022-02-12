@@ -4,9 +4,9 @@ Configuration:
 * Alpine
 * Nginx
 * MySQL 8
-* PHP 8
+* PHP 7.4
 
-## Compose - recommended for persistence
+## Compose
 ```
 curl -O https://raw.githubusercontent.com/als698/opencart-docker/master/docker-compose.yml && docker-compose up -d
 ```
@@ -14,11 +14,7 @@ curl -O https://raw.githubusercontent.com/als698/opencart-docker/master/docker-c
 ## Pull
 ```
 docker pull als698/opencart
-```
-
-## Run
-```
-docker run --name oc -p 80:8080 -it als698/opencart
+docker pull als698/opencart_php
 ```
 
 ## Config
@@ -37,29 +33,17 @@ Default Env
   * HTTP_SERVER: localhost
   * IMPORT_DB: unset - set it to 1 in docker-compose if you want to import your oc db from db/opencart.sql
 
-## Docker Run Env
-```
-docker run -it --name oc -p 80:8080 \
-  -e MYSQL_DATABASE=dbName \
-  -e MYSQL_USER=uName \
-  -e MYSQL_PASSWORD=pAss \
-  -e MYSQL_ROOT_PASSWORD=rPass \
-  -e HTTP_SERVER=localhost \
-  als698/opencart
-```
-
 ## Directory for docker-compose
 
 ```
 db/ - Database
-db/bin/ - Database bin - /db/bin/
 db/data/ - Database data - /db/data/
 db/opencart.sql - Import database - /db/opencart.sql
 
-web/ - Web files
-web/oc/ - Opencart files - /var/www/html/
-web/storage/ - Opencart storage - /var/www/storage/
-web/pma/ - phpMyAdmin - /var/www/pma/
+php/web/ - Web files
+php/web/oc/ - Opencart files - /var/www/html/
+php/web/storage/ - Opencart storage - /var/www/storage/
+php/web/pma/ - phpMyAdmin - /var/www/pma/
 ```
 
 If you want to use your opencart files, don't forget to remove your config files before you run it (config.php and admin/config.php)

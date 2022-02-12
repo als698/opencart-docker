@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  web:
+    # image: als698/opencart:latest
+    build:
+      context: .
+    container_name: web
+    ports:
+      - "80:80"
+    volumes:
+      - ./php/web/oc:/var/www/html
+      # - ./php/web/storage:/var/www/storage
+      # - ./db:/db
+    links:
+      - php
+    networks:
+      - web_network
+    # environment:
+      # MYSQL_DATABASE: dbName
+      # MYSQL_USER: uName
+      # MYSQL_PASSWORD: pAss
+      # MYSQL_ROOT_PASSWORD: rPass
+      # HTTP_SERVER: localhost
+      
+  php:
+    # image: als698/opencart_php:latest
+    build:
+      context: php
+    container_name: php
+    volumes:
+      - ./php/web/oc:/var/www/html
+      # - ./php/web/storage:/var/www/storage
+    networks:
+      - web_network
+
+networks:
+  web_network:
+    driver: bridge
