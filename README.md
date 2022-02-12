@@ -41,9 +41,9 @@ db/data/ - Database data - /db/data/
 db/opencart.sql - Import database - /db/opencart.sql
 
 web/ - Web files
-web/oc.zip/ - Opencart files - /var/www/html/
-web/storage.zip/ - Opencart storage - /var/www/storage/
-web/pma.zip/ - phpMyAdmin - /var/www/pma/
+web/oc.zip - Opencart files - /var/www/html/
+web/storage.zip - Opencart storage - /var/www/storage/
+web/pma.zip - phpMyAdmin - /var/www/pma/
 ```
 
 If you want to use your opencart files, don't forget to remove your config files before you run it (config.php and admin/config.php)
