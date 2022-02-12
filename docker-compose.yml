@@ -22,7 +22,7 @@ services:
       # HTTP_SERVER: localhost # Change it when you run it on different host
 
   php:
-    image: als698/opencart_php:latest
+    image: als698/opencart:php
     container_name: php
     volumes:
       - ./web/oc:/var/www/html

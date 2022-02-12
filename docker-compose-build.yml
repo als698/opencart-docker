@@ -24,7 +24,7 @@ services:
       # HTTP_SERVER: localhost
       
   php:
-    # image: als698/opencart_php:latest
+    # image: als698/opencart:php
     build:
       context: php
     container_name: php
