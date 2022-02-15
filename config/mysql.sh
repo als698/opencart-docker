@@ -18,8 +18,8 @@ fi
 if [ ! -d "/var/www/html/admin" ]; then
   mkdir -p /var/www/html/admin
 fi
-cp /catalog-config.php /var/www/html/config.php
-cp /admin-config.php /var/www/html/admin/config.php
+cp -f /catalog-config.php /var/www/html/config.php
+cp -f /admin-config.php /var/www/html/admin/config.php
 
 if [ "$HTTP_SERVER" != "" ]; then
   sed -i -e "s/\/localhost/\/$HTTP_SERVER/g" /var/www/html/config.php
@@ -80,7 +80,7 @@ else
   echo $(date '+%Y-%m-%d %H:%M:%S') "mysql [info]: $MYSQL_DATABASE not found, creating initial DBs"
   echo "CREATE DATABASE IF NOT EXISTS \`$MYSQL_DATABASE\` CHARACTER SET utf8 COLLATE utf8_general_ci;" >> $tfile
   IMPORT_DB=1
-  cp /opencart.sql /db/opencart.sql
+  echo "n" | cp -i /opencart.sql /db/opencart.sql
 fi
 
 echo $(date '+%Y-%m-%d %H:%M:%S') "mysql [info]: creating $MYSQL_USER"
