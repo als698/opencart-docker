@@ -25,7 +25,7 @@ services:
     #   HTTP_SERVER: localhost # Change it when you run it on different host
 
   php:
-    image: als698/php:7.4
+    image: als698/php:7.1
     container_name: php
     volumes:
       - web_data:/var/www/html # ./web_data:/var/www/html #edit files local
