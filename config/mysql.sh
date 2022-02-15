@@ -99,7 +99,18 @@ else
   mysql=( mysql --protocol=socket -uroot -p$MYSQL_ROOT_PASSWORD -hlocalhost --socket=/run/mysqld/mysqld.sock )
 fi
 
-for i in {30..0}; do
+for i in {5..0}; do
+    echo $(date '+%Y-%m-%d %H:%M:%S') "mysql [info]: MySQL init process in progress..."
+    if echo 'SELECT 1' | "${mysql[@]}" &> /dev/null; then
+        break
+    fi
+    
+    sleep 1
+done
+
+mysql=( mysql --socket=/run/mysqld/mysqld.sock )
+
+for i in {5..0}; do
     echo $(date '+%Y-%m-%d %H:%M:%S') "mysql [info]: MySQL init process in progress..."
     if echo 'SELECT 1' | "${mysql[@]}" &> /dev/null; then
         break
