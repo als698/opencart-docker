@@ -25,7 +25,7 @@ define('DIR_UPLOAD', DIR_STORAGE . 'upload/');
 
 // DB
 define('DB_DRIVER', 'mysqli');
-define('DB_HOSTNAME', 'web');
+define('DB_HOSTNAME', 'oc');
 define('DB_USERNAME', 'dbus3r');
 define('DB_PASSWORD', 'dbpas');
 define('DB_DATABASE', 'opencart');
