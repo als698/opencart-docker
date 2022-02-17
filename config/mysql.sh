@@ -93,14 +93,21 @@ echo "GRANT ALL ON \`$MYSQL_DATABASE\`.* to '$MYSQL_USER'@'%';" >> $tfile
 /usr/bin/mysqld --skip-networking &
 pid="$!"
 
-if [ "$mysql_installed" = "0" ]; then
-  mysql=( mysql --protocol=socket -uroot -hlocalhost --socket=/run/mysqld/mysqld.sock )
-else
-  mysql=( mysql --protocol=socket -uroot -p$MYSQL_ROOT_PASSWORD -hlocalhost --socket=/run/mysqld/mysqld.sock )
-fi
+mysql=( mysql --protocol=socket -uroot -hlocalhost --socket=/run/mysqld/mysqld.sock )
 
 for i in {5..0}; do
-    echo $(date '+%Y-%m-%d %H:%M:%S') "mysql [info]: MySQL init process in progress..."
+    echo $(date '+%Y-%m-%d %H:%M:%S') "mysql [info]: [1] MySQL init process in progress..."
+    if echo 'SELECT 1' | "${mysql[@]}" &> /dev/null; then
+        break
+    fi
+    
+    sleep 1
+done
+
+  mysql=( mysql --protocol=socket -uroot -p$MYSQL_ROOT_PASSWORD -hlocalhost --socket=/run/mysqld/mysqld.sock )
+
+for i in {5..0}; do
+    echo $(date '+%Y-%m-%d %H:%M:%S') "mysql [info]: MySQL [2] init process in progress..."
     if echo 'SELECT 1' | "${mysql[@]}" &> /dev/null; then
         break
     fi
@@ -111,7 +118,7 @@ done
 mysql=( mysql --socket=/run/mysqld/mysqld.sock )
 
 for i in {5..0}; do
-    echo $(date '+%Y-%m-%d %H:%M:%S') "mysql [info]: MySQL init process in progress..."
+    echo $(date '+%Y-%m-%d %H:%M:%S') "mysql [info]: MySQL [3] init process in progress..."
     if echo 'SELECT 1' | "${mysql[@]}" &> /dev/null; then
         break
     fi
