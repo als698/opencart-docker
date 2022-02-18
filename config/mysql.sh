@@ -104,27 +104,44 @@ for i in {5..0}; do
     sleep 1
 done
 
+if [ "$i" = 0 ]; then
   mysql=( mysql --protocol=socket -uroot -p$MYSQL_ROOT_PASSWORD -hlocalhost --socket=/run/mysqld/mysqld.sock )
 
-for i in {5..0}; do
-    echo $(date '+%Y-%m-%d %H:%M:%S') "mysql [info]: MySQL [2] init process in progress..."
-    if echo 'SELECT 1' | "${mysql[@]}" &> /dev/null; then
-        break
-    fi
+  for i in {5..0}; do
+      echo $(date '+%Y-%m-%d %H:%M:%S') "mysql [info]: MySQL [2] init process in progress..."
+      if echo 'SELECT 1' | "${mysql[@]}" &> /dev/null; then
+          break
+      fi
     
-    sleep 1
-done
+      sleep 1
+  done
+fi
 
-mysql=( mysql --socket=/run/mysqld/mysqld.sock )
+if [ "$i" = 0 ]; then
+  mysql=( mysql -uroot -p$MYSQL_ROOT_PASSWORD )
 
-for i in {5..0}; do
-    echo $(date '+%Y-%m-%d %H:%M:%S') "mysql [info]: MySQL [3] init process in progress..."
-    if echo 'SELECT 1' | "${mysql[@]}" &> /dev/null; then
+  for i in {5..0}; do
+      echo $(date '+%Y-%m-%d %H:%M:%S') "mysql [info]: MySQL [3] init process in progress..."
+      if echo 'SELECT 1' | "${mysql[@]}" &> /dev/null; then
         break
-    fi
+      fi
     
-    sleep 1
-done
+      sleep 1
+  done
+fi
+
+if [ "$i" = 0 ]; then
+  mysql=( mysql --socket=/run/mysqld/mysqld.sock )
+
+  for i in {5..0}; do
+      echo $(date '+%Y-%m-%d %H:%M:%S') "mysql [info]: MySQL [4] init process in progress..."
+      if echo 'SELECT 1' | "${mysql[@]}" &> /dev/null; then
+          break
+      fi
+      
+      sleep 1
+  done
+fi
 
 if [ "$i" = 0 ]; then
     echo >&2 $(date '+%Y-%m-%d %H:%M:%S') "mysql [info]: MySQL init process failed."
